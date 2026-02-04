@@ -1,23 +1,41 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using ProjetoTechStore_Volvo_2026.Data;
 
-// Add services to the container.
+// Cria o construtor da aplicação
+// Além de ler as configurações, preparar o DI, logging...
+var construtor = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
-var app = builder.Build();
+// Registra suporte para controllers
+construtor.Services.AddControllers();
 
-// Configure the HTTP request pipeline.
+
+// Registra o Dbcontext no sistema de injeção de dependencia
+// Basicamente ele ta dizendo pro EF "Usa o sql server e pega a connectionstring TechStore)
+construtor.Services.AddDbContext<TechStoreContext>
+    (options => options.UseSqlServer(construtor.Configuration.GetConnectionString("TechStore")));
+
+// Para o swagger descobrir os endpoints
+construtor.Services.AddEndpointsApiExplorer();
+
+//
+construtor.Services.AddSwaggerGen();
+
+
+// Cria a aplicação final
+var app = construtor.Build();
+
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
+// Redireciona HTTP pro HTTPS
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
+// Diz pro asp.net mapear as rotas dos controllers
 app.MapControllers();
 
 app.Run();
+

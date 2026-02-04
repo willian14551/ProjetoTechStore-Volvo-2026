@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public DateTime DataPedido { get; set; }
         public string NomeCliente { get; set; }
-
+        public List<ItemPedido> Itens { get; set; }
     }
 }
