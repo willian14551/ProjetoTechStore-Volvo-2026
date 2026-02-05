@@ -1,14 +1,14 @@
 using System.Linq;
 using System.Globalization;
 using System.Data;
+using ProjetoTechStore_Volvo_2026.DTOs.Pedidos;
 using ProjetoTechStore_Volvo_2026.Models;
 using ProjetoTechStore_Volvo_2026.DTOs;
 using ProjetoTechStore_Volvo_2026.Enums;
 using ProjetoTechStore_Volvo_2026.Data;
 using Microsoft.EntityFrameworkCore;
-using ProjetoTechStore_Volvo_2026.DTOs.Pedidos;
 
-namespace Techstore.Service;
+namespace ProjetoTechStore_Volvo_2026.Service;
 
 public class PedidoService
 {
@@ -58,7 +58,6 @@ public class PedidoService
         return ped;
     }
 
-    //substituir por DTO mais a frente:
     public List<PedidoRespostaDTO> ListarPedidos()
     {
         return _context.Pedidos
@@ -100,4 +99,27 @@ public class PedidoService
         pedido.Status = stt;
         return true;
     }
+
+    //Em um negócio não faz sentido deletar os pedidos, mesmo que sejam pedidos fraudulentos ou pedidos errados, mas está aqui por método de debug. 
+    public bool DeletarPedidoPorID(int pedidoId)
+    {
+        var pedido = _context.Pedidos
+        .Include(p => p.Itens)
+        .FirstOrDefault(p => p.Id == pedidoId);
+
+        if(pedido == null) { throw new Exception($"O Pedido {pedidoId} não foi encontrado.");}
+
+        foreach(var Item in pedido.Itens)
+        {
+            var produto = _context.Produtos.Find(Item.ProdutoId);
+            if(produto != null)
+            {
+                produto.Estoque+= Item.Quantidade;
+            }
+        }
+        _context.Pedidos.Remove(pedido);
+        _context.SaveChanges();
+        return true;
+    }
+
 }

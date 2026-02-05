@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoTechStore_Volvo_2026.Data;
+using ProjetoTechStore_Volvo_2026.Service;
 
-// Cria o construtor da aplicação
-// Além de ler as configurações, preparar o DI, logging...
+// Cria o construtor da aplicaï¿½ï¿½o
+// Alï¿½m de ler as configuraï¿½ï¿½es, preparar o DI, logging...
 var construtor = WebApplication.CreateBuilder(args);
 
 
@@ -10,7 +11,7 @@ var construtor = WebApplication.CreateBuilder(args);
 construtor.Services.AddControllers();
 
 
-// Registra o Dbcontext no sistema de injeção de dependencia
+// Registra o Dbcontext no sistema de injeï¿½ï¿½o de dependencia
 // Basicamente ele ta dizendo pro EF "Usa o sql server e pega a connectionstring TechStore)
 construtor.Services.AddDbContext<TechStoreContext>
     (options => options.UseSqlServer(construtor.Configuration.GetConnectionString("TechStore")));
@@ -22,7 +23,7 @@ construtor.Services.AddEndpointsApiExplorer();
 construtor.Services.AddSwaggerGen();
 
 
-// Cria a aplicação final
+// Cria a aplicaï¿½ï¿½o final
 var app = construtor.Build();
 
 if (app.Environment.IsDevelopment())
