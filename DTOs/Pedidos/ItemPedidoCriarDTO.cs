@@ -2,5 +2,9 @@
 {
     public class ItemPedidoCriarDTO
     {
+        public int ProdutoId {get;set;}
+        public required string NomeProduto {get;set;} = string.Empty;
+        public int Quantidade {get;set;}
+        public decimal PrecoUnitario {get;set;}
     }
 }

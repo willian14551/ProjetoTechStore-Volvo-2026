@@ -2,5 +2,10 @@
 {
     public class MetodoPagamento
     {
+		PIX = 0,
+		CARTAOCREDITO = 1,
+		CARTAODEBITO = 2,
+		BOLETO = 3,
+		DINHEIROFISICO = 4
     }
 }
