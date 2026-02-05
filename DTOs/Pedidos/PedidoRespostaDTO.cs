@@ -9,6 +9,6 @@ namespace ProjetoTechStore_Volvo_2026.DTOs.Pedidos
         public string NomeCliente { get; set; } = String.Empty;
         public decimal ValorTotal;
         public List<ItemPedidoRespostaDTO> Itens { get; set; } = new();
-        public required StatusPedido stt;
+        public StatusPedido stt;
     }
 }

@@ -61,9 +61,9 @@ public class PedidoService
     public List<PedidoRespostaDTO> ListarPedidos()
     {
         return _context.Pedidos
-        .Include(p => p.Itens)
-            .ThenInclude(i => i.Produto)
-        .OrderByDescending(p => p.DataPedido).Select(p => new PedidoRespostaDTO
+        .AsNoTracking()
+        .OrderByDescending(p => p.DataPedido)
+        .Select(p => new PedidoRespostaDTO
         {
             Id = p.Id,
             DataPedido = p.DataPedido,
@@ -72,7 +72,6 @@ public class PedidoService
             stt = p.Status,
             Itens = p.Itens.Select(item => new ItemPedidoRespostaDTO
             {
-                ProdutoId = item.ProdutoId,
                 Quantidade = item.Quantidade,
                 PrecoUnitario = item.PrecoUnitario,
                 NomeProduto = item.Produto.Nome
@@ -80,9 +79,27 @@ public class PedidoService
         }).ToList();
     }
 
-    public Pedido? ProcurarPedidoPorID(int pedidoId)
+    public PedidoRespostaDTO? ProcurarPedidoPorID(int pedidoId)
     {
-        return _context.Pedidos.Find(pedidoId);
+        return _context.Pedidos
+        .AsNoTracking()
+        .Where(p => p.Id == pedidoId)
+        .Select(p => new PedidoRespostaDTO
+        {
+            Id = p.Id,
+            DataPedido = p.DataPedido,
+            NomeCliente = p.NomeCliente,
+            stt = p.Status,
+            ValorTotal = p.Itens.Sum(i => i.PrecoUnitario * i.Quantidade),
+            Itens = p.Itens.Select(item => new ItemPedidoRespostaDTO
+            {
+                NomeProduto = item.Produto.Nome,
+                Quantidade = item.Quantidade,
+                PrecoUnitario = item.PrecoUnitario
+
+            }).ToList()
+        }).FirstOrDefault();
+
     }
 
     public bool UpdateStatusPedido(int pedidoId, StatusPedido stt)
