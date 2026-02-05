@@ -4,7 +4,8 @@
     {
         public int Id { get; set; }
         public DateTime DataPedido { get; set; }
-        public string NomeCliente { get; set; }
+        public string NomeCliente { get; set; } = string.Empty;
+        // string.Empty garante que o NomeCliente não seja Null
         public List<ItemPedido> Itens { get; set; }
     }
 }
