@@ -1,6 +1,6 @@
 ﻿namespace ProjetoTechStore_Volvo_2026.Enums
 {
-    public class MetodoPagamento
+    public enum MetodoPagamento
     {
 		PIX = 0,
 		CARTAOCREDITO = 1,

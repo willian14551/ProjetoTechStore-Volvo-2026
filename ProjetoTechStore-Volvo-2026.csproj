@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ProjetoTechStore_Volvo_2026</RootNamespace>
+    <UserSecretsId>024668d8-3c0f-413d-a8ea-61e9025d17ff</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

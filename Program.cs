@@ -12,9 +12,13 @@ construtor.Services.AddControllers();
 
 
 // Registra o Dbcontext no sistema de inje��o de dependencia
-// Basicamente ele ta dizendo pro EF "Usa o sql server e pega a connectionstring TechStore)
+// Basicamente ele ta dizendo pro EF "Usa o sql server e pega a connectionstring TechStore/DefaultConnection)
+//obs: mudei para default connection para funcionar melhor com o user-secrets.
 construtor.Services.AddDbContext<TechStoreContext>
-    (options => options.UseSqlServer(construtor.Configuration.GetConnectionString("TechStore")));
+    (options => options.UseSqlServer(construtor.Configuration.GetConnectionString("DefaultConnection")));
+
+construtor.Services.AddScoped<PedidoService>();
+
 
 // Para o swagger descobrir os endpoints
 construtor.Services.AddEndpointsApiExplorer();

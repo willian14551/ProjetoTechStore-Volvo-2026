@@ -26,6 +26,7 @@ public class PedidoService
 
         ped.NomeCliente = pedido.NomeCliente;
         ped.Id = pedido.Id;
+        ped.Status = StatusPedido.PROCESSANDO;
         ped.Itens = new List<ItemPedido>();
 
         foreach(var produtoAux in pedido.Itens)
@@ -33,7 +34,7 @@ public class PedidoService
             var produto = _context.Produtos.Find(produtoAux.ProdutoId);
             if(produto == null)
             {
-                throw new Exception($"O produto {produtoAux.NomeProduto} - {produtoAux.ProdutoId} não foi encontrado.");
+                throw new Exception($"O produto nome:{produtoAux.NomeProduto} - id:{produtoAux.ProdutoId} não foi encontrado.");
             }
 
             if (produto.Estoque < produtoAux.Quantidade)
@@ -54,7 +55,7 @@ public class PedidoService
             };
             ped.Itens.Add(NovoItemPedido);
         }
-        ped.Status = StatusPedido.PROCESSANDO;
+        
         return ped;
     }
 

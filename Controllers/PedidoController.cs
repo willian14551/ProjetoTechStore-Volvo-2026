@@ -8,7 +8,9 @@ using ProjetoTechStore_Volvo_2026.Service;
 
 namespace ProjetoTechStore_Volvo_2026.Controllers
 {
-    public class PedidoController : ControllerBase
+    [ApiController]
+    [Route("api/[controller]")]
+   public class PedidoController : ControllerBase
     {
         public PedidoService _Service;
 
