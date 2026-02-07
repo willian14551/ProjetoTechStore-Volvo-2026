@@ -15,7 +15,9 @@ construtor.Services.AddControllers();
 // Basicamente ele ta dizendo pro EF "Usa o sql server e pega a connectionstring TechStore/DefaultConnection)
 //obs: mudei para default connection para funcionar melhor com o user-secrets.
 construtor.Services.AddDbContext<TechStoreContext>
-    (options => options.UseSqlServer(construtor.Configuration.GetConnectionString("DefaultConnection")));
+    (options => options.UseSqlServer(construtor.Configuration.GetConnectionString("DefaultConnection"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure()));
+
 
 construtor.Services.AddScoped<PedidoService>();
 

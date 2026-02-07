@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoTechStore_Volvo_2026.Data;
 
@@ -11,9 +12,11 @@ using ProjetoTechStore_Volvo_2026.Data;
 namespace ProjetoTechStore_Volvo_2026.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-    partial class TechStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20260207223005_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
