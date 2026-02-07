@@ -7,6 +7,7 @@ using ProjetoTechStore_Volvo_2026.DTOs;
 using ProjetoTechStore_Volvo_2026.Enums;
 using ProjetoTechStore_Volvo_2026.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace ProjetoTechStore_Volvo_2026.Service;
 
@@ -21,42 +22,55 @@ public class PedidoService
 
     public Pedido CriarPedido(PedidoCriarDTO pedido)
     {
-        Pedido ped = new Pedido();
-        ped.DataPedido = DateTime.Now;
+        var transacao = _context.Database.BeginTransaction();
 
-        ped.NomeCliente = pedido.NomeCliente;
-        ped.Id = pedido.Id;
-        ped.Status = StatusPedido.PROCESSANDO;
-        ped.Itens = new List<ItemPedido>();
-
-        foreach(var produtoAux in pedido.Itens)
+        try
         {
-            var produto = _context.Produtos.Find(produtoAux.ProdutoId);
-            if(produto == null)
+            
+            Pedido ped = new Pedido();
+            ped.DataPedido = DateTime.Now;
+
+            ped.NomeCliente = pedido.NomeCliente;
+            ped.Id = pedido.Id;
+            ped.Status = StatusPedido.PROCESSANDO;
+            ped.Itens = new List<ItemPedido>();
+
+            foreach(var produtoAux in pedido.Itens)
             {
-                throw new Exception($"O produto nome:{produtoAux.NomeProduto} - id:{produtoAux.ProdutoId} não foi encontrado.");
+                var produto = _context.Produtos.Find(produtoAux.ProdutoId);
+                if(produto == null)
+                {
+                    throw new Exception($"O produto nome:{produtoAux.NomeProduto} - id:{produtoAux.ProdutoId} não foi encontrado.");
+                }
+
+                if (produto.Estoque < produtoAux.Quantidade)
+                {
+                    throw new Exception($"{produto.Nome} não possui estoque suficiente para realizar a transação.");
+                }
+
+                produto.Estoque-=produtoAux.Quantidade;
+
+                var NovoItemPedido = new ItemPedido
+                {
+                    Pedido = ped,
+                    Produto = produto,
+                    ProdutoId = produto.Id,
+                    PedidoId = ped.Id,
+                    Quantidade = produtoAux.Quantidade,
+                    PrecoUnitario = produtoAux.PrecoUnitario
+                };
+                ped.Itens.Add(NovoItemPedido);
             }
-
-            if (produto.Estoque < produtoAux.Quantidade)
-            {
-                throw new Exception($"{produto.Nome} não possui estoque suficiente para realizar a transação.");
-            }
-
-            produto.Estoque-=produtoAux.Quantidade;
-
-            var NovoItemPedido = new ItemPedido
-            {
-                Pedido = ped,
-                Produto = produto,
-                ProdutoId = produto.Id,
-                PedidoId = ped.Id,
-                Quantidade = produtoAux.Quantidade,
-                PrecoUnitario = produtoAux.PrecoUnitario
-            };
-            ped.Itens.Add(NovoItemPedido);
+            _context.Pedidos.Add(ped);
+            _context.SaveChanges();
+            transacao.Commit();
+            return ped;
         }
-        
-        return ped;
+        catch
+        {
+            transacao.Rollback();
+            throw new Exception($"Erro ao criar o pedido.");
+        }
     }
 
     public List<PedidoRespostaDTO> ListarPedidos()
