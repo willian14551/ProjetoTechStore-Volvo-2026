@@ -20,7 +20,7 @@ public class PedidoService
         _context = contexto;
     }
 
-    public Pedido CriarPedido(PedidoCriarDTO pedido)
+    public Pedido CriarPedido(PedidoEntradaDTO pedido)
     {
         var transacao = _context.Database.BeginTransaction();
 
