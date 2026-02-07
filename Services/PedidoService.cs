@@ -139,7 +139,7 @@ public class PedidoService
         .Include(p => p.Itens)
         .FirstOrDefault(p => p.Id == pedidoId);
 
-        if(pedido == null) { throw new Exception($"O Pedido {pedidoId} não foi encontrado.");}
+        if(pedido == null) { return false; }
 
         foreach(var Item in pedido.Itens)
         {
