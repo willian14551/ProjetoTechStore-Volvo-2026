@@ -19,7 +19,7 @@ public class PedidoService
         _context = contexto;
     }
 
-    public Pedido CriarPedido(PedidoCriarDTO pedido)
+    public Pedido CriarPedido(PedidoEntradaDTO pedido)
     {
         Pedido ped = new Pedido();
         ped.DataPedido = DateTime.Now;

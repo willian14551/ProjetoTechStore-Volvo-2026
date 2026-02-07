@@ -21,7 +21,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
         //Metodo listar pedidos lista todos os pedidos em formato de DTO:
         /*
-            é retornado um pedidorespostadto que contem: id, nomecliente, data do pedido, valor total do pedido e seu status.
+            é retornado um edidorespostadto que contem: id, nomecliente, data do pedido, valor total do pedido e seu status.
             Além disso é retornado todos os items associados ao pedido com ujma classe item pedido que contem:
             nome do produto, quantidade e valor unitario.
         */
@@ -52,7 +52,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
         //Permite a criação de pedidos e da adição de produtos.
         [HttpPost]
-        public ActionResult<PedidoCriarDTO> CriarPedido([FromBody] PedidoCriarDTO pedido)
+        public ActionResult<PedidoEntradaDTO> CriarPedido([FromBody] PedidoEntradaDTO pedido)
         {
             var CriarPedido = _Service.CriarPedido(pedido);
             if(CriarPedido == null)
