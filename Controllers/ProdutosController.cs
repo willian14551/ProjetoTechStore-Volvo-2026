@@ -113,5 +113,25 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
             return Ok(dto);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            // Busca o produto por id
+            var produto = await _context.Produtos.FindAsync(id);
+
+            // Se for null, retorna um erro 404 de não encontrado
+            if (produto == null)
+            {
+                return NotFound("Produto não encontrado");
+            }
+
+            // Remove da memória e salva no bd a alteração
+            _context.Produtos.Remove(produto);
+            await _context.SaveChangesAsync();
+
+            // Retorna NoContent para representar que deu certo
+            return NoContent();
+        }
     }
 }
