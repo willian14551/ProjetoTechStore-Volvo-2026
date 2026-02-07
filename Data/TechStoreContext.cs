@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetoTechStore_Volvo_2026.Models;
+using System.Reflection.Emit;
 
 namespace ProjetoTechStore_Volvo_2026.Data
 {
@@ -21,12 +22,12 @@ namespace ProjetoTechStore_Volvo_2026.Data
 
         // Método OnModelCreating que é chamado pelo EF no começo
         // Tem função de setar os relacionamentos, chaves, constraints...
-        protected override void OnModelCreating(ModelBuilder ConstrutorModelo)
+        protected override void OnModelCreating(ModelBuilder construtorModelo)
         {
-            base.OnModelCreating(ConstrutorModelo);
+            base.OnModelCreating(construtorModelo);
 
             // Configura a entidade ItemPedido -> Pedido (N Itens para 1 Pedido)
-            ConstrutorModelo.Entity<ItemPedido>()
+            construtorModelo.Entity<ItemPedido>()
                 // ItemPedido tem 1 Pedido
                 .HasOne(ip => ip.Pedido)
                 // ItemPedido pode ter vários itens
@@ -35,11 +36,21 @@ namespace ProjetoTechStore_Volvo_2026.Data
                 .HasForeignKey(ip => ip.PedidoId);
 
             // Configura a entidade ItemPedido -> Produto (N Itens para 1 Produto)
-            ConstrutorModelo.Entity<ItemPedido>()
+            construtorModelo.Entity<ItemPedido>()
                 .HasOne(ip => ip.Produto)
                 // Vazio para indicar que Produto NÃO precisa ter uma lista de Itens
                 .WithMany()
                 .HasForeignKey(ip => ip.ProdutoId);
+
+            // Configura e especifica a quantia de casas decimais
+            construtorModelo.Entity<Produto>()
+                    .Property(p => p.Preco)
+                    .HasColumnType("decimal(18,2)");
+
+            // Faz o mesmo com o Precounitario do ItemPedido
+            construtorModelo.Entity<ItemPedido>()
+                .Property(ip => ip.PrecoUnitario)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }
