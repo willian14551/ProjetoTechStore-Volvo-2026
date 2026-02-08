@@ -48,7 +48,9 @@ pastas, Injeção de Dependência).
 
 Fique a vontade para entrar em contato conosco!
 
-[Linkedin](https://www.linkedin.com/in/willian14551/)
+[Linkedin - William](https://www.linkedin.com/in/willian14551/)
+[Linkedin - Felipe](https://www.linkedin.com/in/felipe-da-silva-mossato-0a335a223/)
+[Email - Felipe](mailto:felipemossato25@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)
 
 ---
 
