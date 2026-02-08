@@ -1,8 +1,8 @@
 ﻿namespace ProjetoTechStore_Volvo_2026.DTOs.Categorias
 {
-    public class CategoriaRespostaDTO
+    public class CategoriaEntradaDTO
     {
-        public int Id { get; set; }
         public required string Nome { get; set; }
+
     }
 }
