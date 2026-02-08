@@ -57,7 +57,7 @@ public class PedidoService
                     {
                         ProdutoId = produto.Id,
                         Quantidade = produtoAux.Quantidade,
-                        PrecoUnitario = produto.Preco
+                        PrecoUnitario = produto.Preco,
                     };
                     ped.Itens.Add(NovoItemPedido);
                 }
