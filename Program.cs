@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoTechStore_Volvo_2026.Data;
 using ProjetoTechStore_Volvo_2026.Service;
+using Microsoft.OpenApi;
 
 // Cria o construtor da aplica��o
 // Al�m de ler as configura��es, preparar o DI, logging...
@@ -24,9 +25,20 @@ construtor.Services.AddScoped<PedidoService>();
 
 // Para o swagger descobrir os endpoints
 construtor.Services.AddEndpointsApiExplorer();
-
-//
-construtor.Services.AddSwaggerGen();
+construtor.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "TechStore Volvo 2026",
+        Version = "v1",
+        Description = "Projeto feito por Willian e Felipe para o Curso Volvo-PUCPR 2026",
+        Contact = new OpenApiContact
+        {
+            Name = "GitHub Repo",
+            Url = new Uri("https://github.com/willian14551/ProjetoTechStore-Volvo-2026"),
+        }
+    });
+});
 
 
 // Cria a aplica��o final
