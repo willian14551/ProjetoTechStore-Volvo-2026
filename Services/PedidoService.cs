@@ -50,7 +50,7 @@ public class PedidoService
                     {
                         throw new Exception($"{produto.Nome} não possui estoque suficiente para realizar a transação.");
                     }
-                    
+
                     produto.Estoque-=produtoAux.Quantidade;
 
                     var NovoItemPedido = new ItemPedido
@@ -155,5 +155,6 @@ public class PedidoService
         _context.SaveChanges();
         return true;
     }
+
 
 }

@@ -52,12 +52,12 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
         //Permite a criação de pedidos e da adição de produtos.
         [HttpPost]
-        public ActionResult<PedidoEntradaDTO> CriarPedido([FromBody] PedidoEntradaDTO pedido)
+        public ActionResult<PedidoRespostaDTO> CriarPedido([FromBody] PedidoEntradaDTO pedido)
         {
             try
             {
                 var CriarPedido = _Service.CriarPedido(pedido);
-                return CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, CriarPedido);
+                return CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, ProcurarPedidoPorID(CriarPedido.Id));
             }
             catch (Exception ex)
             {
