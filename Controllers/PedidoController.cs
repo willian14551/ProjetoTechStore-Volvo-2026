@@ -54,12 +54,15 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         [HttpPost]
         public ActionResult<PedidoEntradaDTO> CriarPedido([FromBody] PedidoEntradaDTO pedido)
         {
-            var CriarPedido = _Service.CriarPedido(pedido);
-            if(CriarPedido == null)
+            try
             {
-                return BadRequest();
+                var CriarPedido = _Service.CriarPedido(pedido);
+                return CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, CriarPedido);
             }
-            return CreatedAtAction($"Pedido com o id: ", new {id = pedido.Id}, pedido);
+            catch (Exception ex)
+            {
+                return BadRequest(new { erro = ex.Message });
+            }
         }
         //atualiza o status do pedido.
         [HttpPut("{pedidoId}")]

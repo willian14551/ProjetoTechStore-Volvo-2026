@@ -6,9 +6,8 @@ namespace ProjetoTechStore_Volvo_2026.Models
     {
         public int Id { get; set; }
         public DateTime DataPedido { get; set; }
-        public string NomeCliente { get; set; } = string.Empty;
-        // string.Empty garante que o NomeCliente não seja Null
-        public List<ItemPedido> Itens { get; set; } = new();
+        public required string NomeCliente { get; set; }
+        public required List<ItemPedido> Itens { get; set; } = new();
         public StatusPedido Status;
 
     }
