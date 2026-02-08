@@ -53,12 +53,13 @@ public class PedidoService
 
                     produto.Estoque-=produtoAux.Quantidade;
 
-                    var NovoItemPedido = new ItemPedido
-                    {
-                        ProdutoId = produto.Id,
-                        Quantidade = produtoAux.Quantidade,
-                        PrecoUnitario = produto.Preco
-                    };
+                        var NovoItemPedido = new ItemPedido
+                        {
+                            ProdutoId = produto.Id,
+                            Produto = produto,
+                            Quantidade = produtoAux.Quantidade,
+                            PrecoUnitario = produto.Preco
+                        }
                     ped.Itens.Add(NovoItemPedido);
                 }
                 _context.Pedidos.Add(ped);

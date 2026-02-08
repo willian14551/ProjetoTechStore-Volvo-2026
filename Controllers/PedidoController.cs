@@ -77,7 +77,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             return Ok();
         }
         //Deleta o pedido, apenas aqui por questões de debug pois não acho correto a deleção de pedidos.
-        [HttpDelete("pedidoId")]
+        [HttpDelete("{pedidoId}")]
         public IActionResult DeletarPedidoPorID(int pedidoId)
         {
             var DeleteCheck = _Service.DeletarPedidoPorID(pedidoId);
