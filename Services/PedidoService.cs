@@ -156,5 +156,23 @@ public class PedidoService
         return true;
     }
 
+    public PedidoRespostaDTO ConverterParaDTO(Pedido pedido)
+    {
+        return new PedidoRespostaDTO
+        {
+            Id = pedido.Id,
+            NomeCliente = pedido.NomeCliente,
+            DataPedido = pedido.DataPedido,
+            ValorTotal = pedido.Itens.Sum(i => i.Quantidade * i.PrecoUnitario),
+            Itens = pedido.Itens.Select(i => new ItemPedidoRespostaDTO
+            {
+                NomeProduto = i.Produto.Nome,
+                Quantidade = i.Quantidade,
+                PrecoUnitario = i.PrecoUnitario
 
+            }).ToList()
+        };
+
+         
+    }
 }

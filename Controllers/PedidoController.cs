@@ -57,7 +57,9 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             try
             {
                 var CriarPedido = _Service.CriarPedido(pedido);
-                return CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, ProcurarPedidoPorID(CriarPedido.Id));
+                var PedidoDTO = _Service.ConverterParaDTO(CriarPedido);
+
+                return CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, PedidoDTO);
             }
             catch (Exception ex)
             {
