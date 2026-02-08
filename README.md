@@ -1,3 +1,36 @@
+```mermaid
+erDiagram
+    CATEGORIA ||--o{ PRODUTO : "possui"
+    PEDIDO ||--|{ ITEM_PEDIDO : "contem"
+    PRODUTO ||--o{ ITEM_PEDIDO : "esta_em"
+
+    CATEGORIA {
+        int Id PK
+        string Nome
+    }
+    PRODUTO {
+        int Id PK
+        string Nome
+        decimal Preco
+        int Estoque
+        int CategoriaId FK
+    }
+    PEDIDO {
+        int Id PK
+        datetime DataPedido
+        string NomeCliente
+        int Status
+    }
+    ITEM_PEDIDO {
+        int Id PK
+        int PedidoId FK
+        int ProdutoId FK
+        int Quantidade
+        decimal PrecoUnitario
+    }
+```
+
+
 📚 Esse é um repositório para o projeto TechStore de 2026 promovido pelo Curso da PUCPR em parceria com a Volvo:
 
 O projeto está sendo desenvolvido para cumprir os seguintes requisitos:
