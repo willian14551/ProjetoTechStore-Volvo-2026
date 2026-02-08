@@ -30,6 +30,7 @@ erDiagram
     }
 ```
 
+---
 
 📚 Esse é um repositório para o projeto TechStore de 2026 promovido pelo Curso da PUCPR em parceria com a Volvo:
 
