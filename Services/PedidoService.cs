@@ -22,55 +22,57 @@ public class PedidoService
 
     public Pedido CriarPedido(PedidoEntradaDTO pedido)
     {
-        var transacao = _context.Database.BeginTransaction();
-
-        try
-        {
-            
-            Pedido ped = new Pedido();
-            ped.DataPedido = DateTime.Now;
-
-            ped.NomeCliente = pedido.NomeCliente;
-            ped.Id = pedido.Id;
-            ped.Status = StatusPedido.PROCESSANDO;
-            ped.Itens = new List<ItemPedido>();
-
-            foreach(var produtoAux in pedido.Itens)
+        var estrategiaExecucao = _context.Database.CreateExecutionStrategy();
+        return estrategiaExecucao.Execute(() =>
             {
-                var produto = _context.Produtos.Find(produtoAux.ProdutoId);
-                if(produto == null)
+            var transacao = _context.Database.BeginTransaction();
+            try
+            {
+                
+                Pedido ped = new Pedido
                 {
-                    throw new Exception($"O produto nome:{produtoAux.NomeProduto} - id:{produtoAux.ProdutoId} não foi encontrado.");
-                }
-
-                if (produto.Estoque < produtoAux.Quantidade)
-                {
-                    throw new Exception($"{produto.Nome} não possui estoque suficiente para realizar a transação.");
-                }
-
-                produto.Estoque-=produtoAux.Quantidade;
-
-                var NovoItemPedido = new ItemPedido
-                {
-                    Pedido = ped,
-                    Produto = produto,
-                    ProdutoId = produto.Id,
-                    PedidoId = ped.Id,
-                    Quantidade = produtoAux.Quantidade,
-                    PrecoUnitario = produtoAux.PrecoUnitario
+                    NomeCliente = pedido.NomeCliente,
+                    DataPedido = DateTime.Now,
+                    Status = StatusPedido.PROCESSANDO,
+                    Itens = new List<ItemPedido>()
                 };
-                ped.Itens.Add(NovoItemPedido);
+
+
+                foreach(var produtoAux in pedido.Itens)
+                {
+                    var produto = _context.Produtos.Find(produtoAux.ProdutoId);
+                    if(produto == null)
+                    {
+                        throw new Exception($"O produto com o id:{produtoAux.ProdutoId} não foi encontrado.");
+                    }
+
+                    if (produto.Estoque < produtoAux.Quantidade)
+                    {
+                        throw new Exception($"{produto.Nome} não possui estoque suficiente para realizar a transação.");
+                    }
+
+                    produto.Estoque-=produtoAux.Quantidade;
+
+                    var NovoItemPedido = new ItemPedido
+                    {
+                        ProdutoId = produto.Id,
+                        Quantidade = produtoAux.Quantidade,
+                        PrecoUnitario = produto.Preco
+                    };
+                    ped.Itens.Add(NovoItemPedido);
+                }
+                _context.Pedidos.Add(ped);
+                _context.SaveChanges();
+                transacao.Commit();
+                return ped;
             }
-            _context.Pedidos.Add(ped);
-            _context.SaveChanges();
-            transacao.Commit();
-            return ped;
-        }
-        catch
-        {
-            transacao.Rollback();
-            throw new Exception($"Erro ao criar o pedido.");
-        }
+            catch(Exception ex)
+            {
+                transacao.Rollback();
+                var mensagemErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                throw new Exception($"Erro ao criar o pedido: {mensagemErro}.");
+            }
+        });
     }
 
     public List<PedidoRespostaDTO> ListarPedidos()

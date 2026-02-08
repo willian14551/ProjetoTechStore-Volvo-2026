@@ -2,9 +2,7 @@
 {
     public class ItemPedidoEntradaDTO
     {
-        public int ProdutoId {get;set;}
-        public required string NomeProduto {get;set;} = string.Empty;
-        public int Quantidade {get;set;}
-        public decimal PrecoUnitario {get;set;}
+        public required int ProdutoId {get;set;}
+        public required int Quantidade {get;set;}
     }
 }

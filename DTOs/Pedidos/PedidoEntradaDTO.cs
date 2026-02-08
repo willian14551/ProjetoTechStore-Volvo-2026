@@ -4,7 +4,6 @@ namespace ProjetoTechStore_Volvo_2026.DTOs.Pedidos
 {
     public class PedidoEntradaDTO
     {
-        public int Id { get; set; }
         public string NomeCliente { get; set; } = String.Empty;
 
         public required MetodoPagamento _MetodoDePagamento {get;set;}

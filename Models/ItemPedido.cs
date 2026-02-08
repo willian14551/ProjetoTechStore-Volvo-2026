@@ -1,4 +1,6 @@
-﻿namespace ProjetoTechStore_Volvo_2026.Models
+﻿using System.Text.Json.Serialization; 
+
+namespace ProjetoTechStore_Volvo_2026.Models
 {
     public class ItemPedido
     {
@@ -7,6 +9,7 @@
 
         // FK para Pedido
         public int PedidoId { get; set; }
+        [JsonIgnore]    
         public Pedido Pedido { get; set; } = null!;
 
 

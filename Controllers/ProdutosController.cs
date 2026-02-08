@@ -20,7 +20,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         // Get com filtros e paginação
         [HttpGet]
         public async Task<IActionResult> Get(
-            [FromQuery] string nome,
+            [FromQuery] string? nome,
             // O '?' pra garantir que a variável fique null caso não digite nada
             // Ou seja, não é obrigatório seu preenchimento
             [FromQuery] decimal? precoMin,
