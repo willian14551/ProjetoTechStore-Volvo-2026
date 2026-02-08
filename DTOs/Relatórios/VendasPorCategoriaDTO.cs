@@ -2,5 +2,8 @@
 {
     public class VendasPorCategoriaDTO
     {
+        public int CategoriaId;
+        public required string Categoria { get; set; }
+        public decimal ValorTotalVendido { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoTechStore_Volvo_2026.Data;
 using ProjetoTechStore_Volvo_2026.DTOs.Produtos;
+using ProjetoTechStore_Volvo_2026.DTOs.Relatórios;
 using ProjetoTechStore_Volvo_2026.Models;
 
 namespace ProjetoTechStore_Volvo_2026.Controllers
@@ -20,13 +21,13 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         // Get com filtros e paginação
         [HttpGet]
         public async Task<IActionResult> Get(
-            [FromQuery] string nome,
+            [FromQuery] string? nome,
             // O '?' pra garantir que a variável fique null caso não digite nada
             // Ou seja, não é obrigatório seu preenchimento
             [FromQuery] decimal? precoMin,
             [FromQuery] decimal? precoMax,
-            [FromQuery] int pular = 0,
-            [FromQuery] int pegar = 10)
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 10)
         {
             // Inicio da Query
             var query = _context.Produtos
@@ -44,13 +45,13 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             }
             if (precoMax.HasValue)
             {
-                query = query.Where(p => p.Preco >= precoMax.Value);
+                query = query.Where(p => p.Preco <= precoMax.Value);
             }
 
             // Aplica a paginação e executa a busca (.ToList)
             var produtos = await query
-                .Skip(pular)
-                .Take(pegar)
+                .Skip(skip)
+                .Take(take)
                 .ToListAsync();
 
             var listaDTO = produtos.Select(p => new ProdutoRespostaDTO
@@ -63,6 +64,28 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             });
 
             return Ok(listaDTO);
+        }
+
+        // Buscar especificamente por ID (pro CreatedAtAction funcionar)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPorId(int id)
+        {
+            var produto = await _context.Produtos
+                .Include(p => p.Categoria)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (produto == null) return NotFound();
+
+            var dto = new ProdutoRespostaDTO
+            {
+                Id = produto.Id,
+                Nome = produto.Nome,
+                Preco = produto.Preco,
+                Estoque = produto.Estoque,
+                NomeCategoria = produto.Categoria.Nome
+            };
+
+            return Ok(dto);
         }
 
         [HttpPost]
@@ -90,28 +113,6 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             // Mapear para o DTO de resposta (pra poder devolver com o nome da categoria)
             // Já que o objeto Categoria ainda não está na memória, devolvemos o ID da Categoria ou busca pelo nome dela
             return CreatedAtAction(nameof(Get), new { id = novoProduto.Id }, dto);
-        }
-
-        // Buscar especificamente por ID (pro CreatedAtAction funcionar)
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPorId(int id)
-        {
-            var produto = await _context.Produtos
-                .Include(p => p.Categoria)
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (produto == null) return NotFound();
-
-            var dto = new ProdutoRespostaDTO
-            {
-                Id = produto.Id,
-                Nome = produto.Nome,
-                Preco = produto.Preco,
-                Estoque = produto.Estoque,
-                NomeCategoria = produto.Categoria.Nome
-            };
-
-            return Ok(dto);
         }
 
         [HttpDelete("{id}")]
