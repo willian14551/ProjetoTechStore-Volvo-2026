@@ -2,7 +2,7 @@
 erDiagram
     CATEGORIA ||--o{ PRODUTO : "possui"
     PEDIDO ||--|{ ITEM_PEDIDO : "contem"
-    PRODUTO ||--o{ ITEM_PEDIDO : "esta_em"
+    PRODUTO ||--o{ ITEM_PEDIDO : "compoe"
 
     CATEGORIA {
         int Id PK
