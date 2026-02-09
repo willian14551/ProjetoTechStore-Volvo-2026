@@ -20,12 +20,12 @@ public class PedidoService
         _context = contexto;
     }
 
-    public Pedido CriarPedido(PedidoEntradaDTO pedido)
+    public async Task<Pedido> CriarPedido(PedidoEntradaDTO pedido)
     {
         var estrategiaExecucao = _context.Database.CreateExecutionStrategy();
-        return estrategiaExecucao.Execute(() =>
-            {
-            var transacao = _context.Database.BeginTransaction();
+        return await estrategiaExecucao.ExecuteAsync(async () =>
+        {
+            using var transacao = await _context.Database.BeginTransactionAsync();
             try
             {
                 
@@ -40,7 +40,7 @@ public class PedidoService
 
                 foreach(var produtoAux in pedido.Itens)
                 {
-                    var produto = _context.Produtos.Find(produtoAux.ProdutoId);
+                    var produto = await _context.Produtos.FindAsync(produtoAux.ProdutoId);
                     if(produto == null)
                     {
                         throw new Exception($"O produto com o id:{produtoAux.ProdutoId} não foi encontrado.");
@@ -62,22 +62,22 @@ public class PedidoService
                     ped.Itens.Add(NovoItemPedido);
                 }
                 _context.Pedidos.Add(ped);
-                _context.SaveChanges();
-                transacao.Commit();
+                await _context.SaveChangesAsync();
+                await transacao.CommitAsync();
                 return ped;
             }
             catch(Exception ex)
             {
-                transacao.Rollback();
+                await transacao.RollbackAsync();
                 var mensagemErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 throw new Exception($"Erro ao criar o pedido: {mensagemErro}.");
             }
         });
     }
 
-    public List<PedidoRespostaDTO> ListarPedidos()
+    public async Task<List<PedidoRespostaDTO>> ListarPedidos()
     {
-        return _context.Pedidos
+        return await _context.Pedidos
         .AsNoTracking()
         .OrderByDescending(p => p.DataPedido)
         .Select(p => new PedidoRespostaDTO
@@ -93,12 +93,12 @@ public class PedidoService
                 PrecoUnitario = item.PrecoUnitario,
                 NomeProduto = item.Produto.Nome
             }).ToList()
-        }).ToList();
+        }).ToListAsync();
     }
 
-    public PedidoRespostaDTO? ProcurarPedidoPorID(int pedidoId)
+    public async Task<PedidoRespostaDTO?> ProcurarPedidoPorID(int pedidoId)
     {
-        return _context.Pedidos
+        return await _context.Pedidos
         .AsNoTracking()
         .Where(p => p.Id == pedidoId)
         .Select(p => new PedidoRespostaDTO
@@ -115,13 +115,13 @@ public class PedidoService
                 PrecoUnitario = item.PrecoUnitario
 
             }).ToList()
-        }).FirstOrDefault();
+        }).FirstOrDefaultAsync();
 
     }
 
-    public bool UpdateStatusPedido(int pedidoId, StatusPedido stt)
+    public async Task<bool> UpdateStatusPedido(int pedidoId, StatusPedido stt)
     {
-        var pedido = _context.Pedidos.Find(pedidoId);
+        var pedido = await _context.Pedidos.FindAsync(pedidoId);
         if(pedido == null)
         {
             throw new Exception($"Não foi possivel encontrar o pedido {pedidoId}.");
@@ -131,28 +131,30 @@ public class PedidoService
             throw new Exception($"Não foi possivel alterar o status do pedido {pedidoId}.");
         }
         pedido.Status = stt;
+
+        await _context.SaveChangesAsync();
         return true;
     }
 
     //Em um negócio não faz sentido deletar os pedidos, mesmo que sejam pedidos fraudulentos ou pedidos errados, mas está aqui por método de debug. 
-    public bool DeletarPedidoPorID(int pedidoId)
+    public async Task<bool> DeletarPedidoPorID(int pedidoId)
     {
-        var pedido = _context.Pedidos
+        var pedido = await _context.Pedidos
         .Include(p => p.Itens)
-        .FirstOrDefault(p => p.Id == pedidoId);
+        .FirstOrDefaultAsync(p => p.Id == pedidoId);
 
         if(pedido == null) { return false; }
 
         foreach(var Item in pedido.Itens)
         {
-            var produto = _context.Produtos.Find(Item.ProdutoId);
+            var produto = await _context.Produtos.FindAsync(Item.ProdutoId);
             if(produto != null)
             {
                 produto.Estoque+= Item.Quantidade;
             }
         }
         _context.Pedidos.Remove(pedido);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return true;
     }
 

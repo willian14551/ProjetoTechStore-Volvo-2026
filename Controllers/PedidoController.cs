@@ -52,25 +52,25 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
         //Permite a criação de pedidos e da adição de produtos.
         [HttpPost]
-        public ActionResult<PedidoRespostaDTO> CriarPedido([FromBody] PedidoEntradaDTO pedido)
+        public async Task<ActionResult<PedidoRespostaDTO>> CriarPedido([FromBody] PedidoEntradaDTO pedido)
         {
             try
             {
-                var CriarPedido = _Service.CriarPedido(pedido);
+                var CriarPedido = await _Service.CriarPedido(pedido);
                 var PedidoDTO = _Service.ConverterParaDTO(CriarPedido);
 
-                return CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, PedidoDTO);
+                return this.CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, PedidoDTO);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { erro = ex.Message });
+                return this.BadRequest(new { erro = ex.Message });
             }
         }
         //atualiza o status do pedido.
         [HttpPut("{pedidoId}")]
-        public ActionResult<PedidoRespostaDTO> UpdateStatusPedido(int pedidoId, StatusPedido _status)
+        public async Task<ActionResult<PedidoRespostaDTO>> UpdateStatusPedido(int pedidoId, StatusPedido _status)
         {
-            var AtualizarPedido = _Service.UpdateStatusPedido(pedidoId, _status);
+            var AtualizarPedido = await _Service.UpdateStatusPedido(pedidoId, _status);
             if(AtualizarPedido == false)
             {
                 return NotFound();
@@ -80,9 +80,9 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         }
         //Deleta o pedido, apenas aqui por questões de debug pois não acho correto a deleção de pedidos.
         [HttpDelete("{pedidoId}")]
-        public IActionResult DeletarPedidoPorID(int pedidoId)
+        public async Task<IActionResult> DeletarPedidoPorID(int pedidoId)
         {
-            var DeleteCheck = _Service.DeletarPedidoPorID(pedidoId);
+            var DeleteCheck = await _Service.DeletarPedidoPorID(pedidoId);
             if(DeleteCheck == false)
             {
                 return NotFound();
