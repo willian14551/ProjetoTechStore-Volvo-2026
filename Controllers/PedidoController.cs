@@ -19,23 +19,18 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             _Service = _svc;
         }
 
-        //Metodo listar pedidos lista todos os pedidos em formato de DTO:
-        /*
-            é retornado um edidorespostadto que contem: id, nomecliente, data do pedido, valor total do pedido e seu status.
-            Além disso é retornado todos os items associados ao pedido com ujma classe item pedido que contem:
-            nome do produto, quantidade e valor unitario.
-        */
+        //Metodo listar pedidos lista todos os pedidos em formato de DTO
         [HttpGet]
         public ActionResult<List<PedidoRespostaDTO>> ListarPedidos()
         {
             try
             {
                 var pedidos = _Service.ListarPedidos();
-                return Ok(pedidos);
+                return this.Ok(pedidos);
             }
             catch
             {
-                return StatusCode(500, new {message = "Erro ao listar pedidos."});
+                return this.StatusCode(500, new {message = "Erro ao listar pedidos."});
             }
         }
         //Mesmo retorno do listarpedidos, mas apenas lista um pedido procurado por id.
@@ -45,19 +40,19 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             var pedido = _Service.ProcurarPedidoPorID(pedidoId);
             if(pedido == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return Ok(pedido);
+            return this.Ok(pedido);
         }
 
-        //Permite a criação de pedidos e da adição de produtos.
+        //Permite a criação de pedidos e da adição de produtos ao banco de dados.
         [HttpPost]
         public async Task<ActionResult<PedidoRespostaDTO>> CriarPedido([FromBody] PedidoEntradaDTO pedido)
         {
             try
             {
                 var CriarPedido = await _Service.CriarPedido(pedido);
-                var PedidoDTO = _Service.ConverterParaDTO(CriarPedido);
+                var PedidoDTO = _Service.ConverterParaDTO(CriarPedido); //método de conversão para melhor retorno.
 
                 return this.CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, PedidoDTO);
             }
@@ -66,6 +61,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
                 return this.BadRequest(new { erro = ex.Message });
             }
         }
+
         //atualiza o status do pedido.
         [HttpPut("{pedidoId}")]
         public async Task<ActionResult<PedidoRespostaDTO>> UpdateStatusPedido(int pedidoId, StatusPedido _status)
@@ -76,7 +72,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return this.Ok();
         }
         //Deleta o pedido, apenas aqui por questões de debug pois não acho correto a deleção de pedidos.
         [HttpDelete("{pedidoId}")]
@@ -85,10 +81,10 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             var DeleteCheck = await _Service.DeletarPedidoPorID(pedidoId);
             if(DeleteCheck == false)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return NoContent();
+            return this.NoContent();
         }
     }
 }
