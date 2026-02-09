@@ -15,7 +15,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         {
             _context = context;
         }
-
+        
         [HttpGet("vendas-por-categoria")]
         public async Task<IActionResult> GetVendasPorCategoriaGeral()
         {
