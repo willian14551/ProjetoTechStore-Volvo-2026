@@ -1,4 +1,4 @@
-📚 Esse é um repositório para o projeto TechStore de 2026 promovido pelo Curso da PUCPR em parceria com a Volvo:<br>
+📚 Esse é um repositório para o projeto Techful promovido pelo Curso da PUCPR em parceria com a Volvo:<br>
 ![.NET](https://img.shields.io/badge/.NET-10.0-purple)
 ![Entity Framework Core](https://img.shields.io/badge/Entity%20Framework%20Core-10.0-blue)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-red)
