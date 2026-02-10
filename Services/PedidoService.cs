@@ -8,6 +8,7 @@ using ProjetoTechStore_Volvo_2026.Enums;
 using ProjetoTechStore_Volvo_2026.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ProjetoTechStore_Volvo_2026.Service;
 
@@ -25,11 +26,14 @@ public class PedidoService
         var estrategiaExecucao = _context.Database.CreateExecutionStrategy();
         return await estrategiaExecucao.ExecuteAsync(async () =>
         {
-
-
             using var transacao = await _context.Database.BeginTransactionAsync();
             try
             {
+                if(pedido.Itens.IsNullOrEmpty())
+                {
+                    throw new Exception($"Erro ao criar o pedido: Um pedido deve conter pelo menos um item.");
+                }
+
                 Pedido ped = new Pedido
                 {
                     NomeCliente = pedido.NomeCliente,
