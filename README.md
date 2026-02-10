@@ -13,7 +13,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 7. Utilizamos o padrão de projeto organizacional MVC(Model View Controller).
 
 ---
-<h2>Arquitetura do Projeto</h3>
+## Arquitetura do Projeto
 
 # 1. Entity Framework
 1. Foi utilizado como ponte entre o C# e o SQL server, proporcionando maior flexibilidade na hora de trabalharmos com o banco de dados.
@@ -25,12 +25,12 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 2. Utilizamos de DTOs para comunicação entre as classes no projeto, tanto para criação com os DTOs de entrada tanto para saída com os DTOs de resposta, garantindo melhor segurança dos dados enviados.
 ---
 
-<h2>Como executar o projeto em sua máquina: </h2>
-#Para a compilar o projeto em sua máquina é necessário ter instalado as seguintes ferramentas:
-* **[.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)** (Verifique com `dotnet --version`)
-* **[SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)** (Express, Developer ou utilizando o Docker).
+## Como executar o projeto em sua máquina: 
+### Para a compilar o projeto em sua máquina é necessário ter instalado as seguintes ferramentas:<br>
+- [Dotnet SDK 10.0](https://dotnet.microsoft.com/download/dotnet/10.0) (Verifique com `dotnet --version`) 
+- [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) (Express, Developer ou utilizando o Docker). 
 
-#Passo a Passo:
+# Passo a Passo:
 
 
 1. Clone o repositório:
@@ -64,6 +64,47 @@ Após clonar o repositório, utilize este comando para instalar as dependências
    ```bash
    dotnet run
    ```
+---
+## Principais endpoints da API:
+
+### Categoria (api/Categoria)
+- Get:
+  - Possuimos dois gets:
+  - Sem ID: Lista todas as Categoria por meio de DTOs.
+  - Com ID: Verifica a existência da Categoria, caso exista retorna um DTO.
+- Post:
+  - Cria uma Categoria, validando a categoria.
+- Delete:
+  - Deleta o produto do sistema, não altera pedidos e verifica a existência do produto por ID.
+
+### Pedido(api/Pedido)
+- Get:
+  - Possuimos dois gets:
+  - Sem ID: Lista todos os pedidos por meio de DTOs.
+  - Com ID: Verifica a existência do pedido, caso exista retorna um DTO.
+- Post:
+  - Cria um pedido, valida o produto e a quantidade.
+- Put:
+  - Atualiza o status do pedido por ID, valida a existência do pedido.
+- Delete:
+  - Metodo de debug, valida o pedido por Id antes da deleção.
+### Produto (api/Produto)
+- Get:
+  - Possuimos dois gets:
+  - Sem ID: Lista todos os Produtos por meio de DTOs. Além disso pode receber parâmetros de filtro:
+     - Nome, preço minimo, preço maximo.
+     - Aceita paginação.
+  - Com ID: Verifica a existência do produto, caso exista retorna um DTO.
+- Post:
+  - Cria um produto, validando a categoria.
+- Delete:
+  - Deleta o produto do sistema, não altera pedidos e verifica a existência do produto por ID.
+
+### Relatório (api/Relatorio)
+- Get
+   - Existência de um get por Id da categoria, retorna o relatório especifico dessa categoria.
+   - Get sem id retorna todos os relatórios.
+
 ---
 📫 Contato
 
