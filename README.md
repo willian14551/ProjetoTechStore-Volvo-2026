@@ -108,16 +108,16 @@ Após clonar o repositório, utilize este comando para instalar as dependências
 ---
 📫 Contato
 
-Fique a vontade para entrar em contato conosco!
-
-[Linkedin - Willian](https://www.linkedin.com/in/willian14551/)<br>
-[Email - Willian](mailto:willian01314551@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br>
-
-[Linkedin - Felipe](https://www.linkedin.com/in/felipe-da-silva-mossato-0a335a223/)<br>
-[Email - Felipe](mailto:felipemossato25@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br>
+Fique a vontade para entrar em contato conosco! <br> <br>
+Willian:    
+   [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/willian14551/)](https://www.linkedin.com/in/willian14551/)
+   [![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:willian01314551@gmail.com)](mailto:willian01314551@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br><br>
+Felipe:   
+   [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/felipe-da-silva-mossato-0a335a223/)](https://www.linkedin.com/in/felipe-da-silva-mossato-0a335a223/)
+   [![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:felipemossato25@gmail.com)](mailto:felipemossato25@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br><br>
 
 --- 
-Diagrama de entidade relacionamento do projeto:
+Diagrama de entidade relacionamento do projeto feito pelo Mermaid chart:
 
 ```mermaid
 erDiagram
