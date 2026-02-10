@@ -18,23 +18,18 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             _context = context;
         }
 
-        // Get com filtros e paginação
         [HttpGet]
         public async Task<IActionResult> Get(
             [FromQuery] string? nome,
-            // O '?' pra garantir que a variável fique null caso não digite nada
-            // Ou seja, não é obrigatório seu preenchimento
             [FromQuery] decimal? precoMin,
             [FromQuery] decimal? precoMax,
             [FromQuery] int skip = 0,
             [FromQuery] int take = 10)
         {
-            // Inicio da Query
             var query = _context.Produtos
-                .Include(p => p.Categoria) // Traz a categoria pra mostrar o nome
+                .Include(p => p.Categoria)
                 .AsQueryable();
 
-            // Aplicação de filtros apenas SE o usuário digitou algo
             if (!string.IsNullOrEmpty(nome))
             {
                 query = query.Where(p => p.Nome.Contains(nome));
@@ -48,7 +43,6 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
                 query = query.Where(p => p.Preco <= precoMax.Value);
             }
 
-            // Aplica a paginação e executa a busca (.ToList)
             var produtos = await query
                 .Skip(skip)
                 .Take(take)
@@ -66,7 +60,6 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             return Ok(listaDTO);
         }
 
-        // Buscar especificamente por ID (pro CreatedAtAction funcionar)
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPorId(int id)
         {
@@ -91,14 +84,12 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(ProdutoEntradaDTO dto)
         {
-            // Verificar se a categoria existe primeiramente
             var categoriaExiste = await _context.Categorias.AnyAsync(c => c.Id == dto.CategoriaId);
             if (!categoriaExiste)
             {
                 return BadRequest("Categoria não encontrada. Verifique se digitou o nome corretamente.");
             }
 
-            // Mapear DTO -> Entity
             var novoProduto = new Produto
             {
                 Nome = dto.Nome,
@@ -109,29 +100,22 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
             _context.Produtos.Add(novoProduto);
             await _context.SaveChangesAsync();
-
-            // Mapear para o DTO de resposta (pra poder devolver com o nome da categoria)
-            // Já que o objeto Categoria ainda não está na memória, devolvemos o ID da Categoria ou busca pelo nome dela
             return CreatedAtAction(nameof(Get), new { id = novoProduto.Id }, dto);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // Busca o produto por id
             var produto = await _context.Produtos.FindAsync(id);
 
-            // Se for null, retorna um erro 404 de não encontrado
             if (produto == null)
             {
                 return NotFound("Produto não encontrado");
             }
 
-            // Remove da memória e salva no bd a alteração
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
-            // Retorna NoContent para representar que deu certo
             return NoContent();
         }
     }

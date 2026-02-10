@@ -20,17 +20,14 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CategoriaEntradaDTO dto)
         {
-            // Mapear DTO de Entrada para o Banco de Dados
             var novaCategoria = new Categoria
             {
                 Nome = dto.Nome
             };
 
-            // Salvar
             _context.Categorias.Add(novaCategoria);
             await _context.SaveChangesAsync();
 
-            // Mapear Banco de Dados para o DTO de saída (resposta)
             var dtoResposta = new CategoriaRespostaDTO
             {
                 Id = novaCategoria.Id,
@@ -43,10 +40,8 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            // Buscar no banco
             var categorias = await _context.Categorias.ToListAsync();
 
-            // Transformar a lista de models em lista de DTOs
             var listaDTO = categorias.Select(c => new CategoriaRespostaDTO
             {
                 Id = c.Id,
@@ -75,8 +70,8 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             _context.Categorias.Remove(categoria);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+            return Ok($"A categoria {categoria.Nome} do Id {categoria.Id} foi deletada.");
+        }   
     }
 }
 

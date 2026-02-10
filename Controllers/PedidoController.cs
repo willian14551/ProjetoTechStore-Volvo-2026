@@ -19,9 +19,8 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             _Service = _svc;
         }
 
-        //Metodo listar pedidos lista todos os pedidos em formato de DTO
         [HttpGet]
-        public async Task<ActionResult<List<PedidoRespostaDTO>>> ListarPedidos()
+        public async Task <ActionResult<List<PedidoRespostaDTO>>> ListarPedidos()
         {
             try
             {
@@ -33,9 +32,9 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
                 return this.StatusCode(500, new {message = "Erro ao listar pedidos."});
             }
         }
-        //Mesmo retorno do listarpedidos, mas apenas lista um pedido procurado por id.
+
         [HttpGet("{pedidoId}")]
-        public async Task<ActionResult<PedidoRespostaDTO>>? ProcurarPedidoPorID(int pedidoId)
+        public async Task <ActionResult<PedidoRespostaDTO>>? ProcurarPedidoPorID(int pedidoId)
         {
             var pedido = await _Service.ProcurarPedidoPorID(pedidoId);
             if(pedido == null)
@@ -45,7 +44,6 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             return this.Ok(pedido);
         }
 
-        //Permite a criação de pedidos e da adição de produtos ao banco de dados.
         [HttpPost]
         public async Task<ActionResult<PedidoRespostaDTO>> CriarPedido([FromBody] PedidoEntradaDTO pedido)
         {
@@ -62,7 +60,6 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             }
         }
 
-        //atualiza o status do pedido.
         [HttpPut("{pedidoId}")]
         public async Task<ActionResult<PedidoRespostaDTO>> UpdateStatusPedido(int pedidoId, StatusPedido _status)
         {
@@ -74,7 +71,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
             return this.Ok();
         }
-        //Deleta o pedido, apenas aqui por questões de debug pois não acho correto a deleção de pedidos.
+
         [HttpDelete("{pedidoId}")]
         public async Task<IActionResult> DeletarPedidoPorID(int pedidoId)
         {
