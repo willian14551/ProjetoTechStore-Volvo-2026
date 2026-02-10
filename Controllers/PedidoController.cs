@@ -21,11 +21,11 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
 
         //Metodo listar pedidos lista todos os pedidos em formato de DTO
         [HttpGet]
-        public ActionResult<List<PedidoRespostaDTO>> ListarPedidos()
+        public async Task<ActionResult<List<PedidoRespostaDTO>>> ListarPedidos()
         {
             try
             {
-                var pedidos = _Service.ListarPedidos();
+                var pedidos = await _Service.ListarPedidos();
                 return this.Ok(pedidos);
             }
             catch
@@ -35,9 +35,9 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         }
         //Mesmo retorno do listarpedidos, mas apenas lista um pedido procurado por id.
         [HttpGet("{pedidoId}")]
-        public ActionResult<PedidoRespostaDTO>? ProcurarPedidoPorID(int pedidoId)
+        public async Task<ActionResult<PedidoRespostaDTO>>? ProcurarPedidoPorID(int pedidoId)
         {
-            var pedido = _Service.ProcurarPedidoPorID(pedidoId);
+            var pedido = await _Service.ProcurarPedidoPorID(pedidoId);
             if(pedido == null)
             {
                 return this.NotFound();
