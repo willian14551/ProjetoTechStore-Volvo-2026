@@ -86,7 +86,6 @@ public class PedidoService
             DataPedido = p.DataPedido,
             NomeCliente = p.NomeCliente,
             ValorTotal = p.Itens.Sum(i => i.PrecoUnitario * i.Quantidade),
-            stt = p.Status,
             Itens = p.Itens.Select(item => new ItemPedidoRespostaDTO
             {
                 Quantidade = item.Quantidade,
@@ -106,7 +105,6 @@ public class PedidoService
             Id = p.Id,
             DataPedido = p.DataPedido,
             NomeCliente = p.NomeCliente,
-            stt = p.Status,
             ValorTotal = p.Itens.Sum(i => i.PrecoUnitario * i.Quantidade),
             Itens = p.Itens.Select(item => new ItemPedidoRespostaDTO
             {
