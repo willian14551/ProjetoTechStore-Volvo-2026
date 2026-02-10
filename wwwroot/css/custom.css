@@ -1,0 +1,70 @@
+﻿
+:root {
+    --volvo-blue: #003057;
+    --volvo-blue-deep: #001C33;
+    --volvo-logo-url: url("/assets/volvo-logo.svg");
+}
+
+.swagger-ui .topbar {
+    background: linear-gradient(90deg, var(--volvo-blue), var(--volvo-blue-deep)) !important;
+    border-bottom: 1px solid rgba(255,255,255,.12) !important;
+    padding: 10px 16px !important;
+}
+    .swagger-ui .topbar .download-url-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+    }
+
+    .swagger-ui .topbar .topbar-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+
+        .swagger-ui .topbar .topbar-wrapper a span {
+            display: none !important;
+        }
+
+        .swagger-ui .topbar .topbar-wrapper a {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            color: #fff !important;
+            text-decoration: none !important;
+            flex: 0 0 auto !important;
+        }
+
+            .swagger-ui .topbar .topbar-wrapper a::before {
+                content: "";
+                width: 64px;
+                height: 64px;
+                display: inline-block;
+                background: var(--volvo-logo-url) center/contain no-repeat;
+                filter: drop-shadow(0 2px 8px rgba(0,0,0,.25));
+            }
+
+            .swagger-ui .topbar .topbar-wrapper a::after {
+                content: "TechStore API";
+                font-weight: 700;
+                font-size: 14px;
+                letter-spacing: .2px;
+            }
+
+    .swagger-ui .topbar .download-url-wrapper input[type="text"] {
+        border-radius: 10px !important;
+    }
+
+    .swagger-ui .topbar .download-url-wrapper .select-label {
+        color: rgba(255,255,255,.85) !important;
+    }
+
+    .swagger-ui .topbar a {
+        color: #fff !important;
+    }
+
+    .swagger-ui .topbar .topbar-wrapper a > svg {
+        display: none !important;
+    }
