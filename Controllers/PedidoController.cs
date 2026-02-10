@@ -63,13 +63,20 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
         [HttpPut("{pedidoId}")]
         public async Task<ActionResult<PedidoRespostaDTO>> UpdateStatusPedido(int pedidoId, StatusPedido _status)
         {
-            var AtualizarPedido = await _Service.UpdateStatusPedido(pedidoId, _status);
-            if(AtualizarPedido == false)
+            try
             {
-                return NotFound();
+                await _Service.UpdateStatusPedido(pedidoId, _status);
+                return this.Ok();
             }
-
-            return this.Ok();
+            catch(Exception ex)
+            {
+                if(ex.Message.Contains("Não foi possivel encontrar"))
+                {
+                    return NotFound(ex.Message);
+                    
+                }
+                throw;
+            }
         }
 
         [HttpDelete("{pedidoId}")]
