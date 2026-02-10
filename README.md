@@ -1,4 +1,4 @@
-📚 Esse é um repositório para o projeto TechStore de 2026 promovido pelo Curso da PUCPR em parceria com a Volvo:<br>
+📚 Esse é um repositório para o projeto Techful promovido pelo Curso da PUCPR em parceria com a Volvo:<br>
 ![.NET](https://img.shields.io/badge/.NET-10.0-purple)
 ![Entity Framework Core](https://img.shields.io/badge/Entity%20Framework%20Core-10.0-blue)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-red)
@@ -13,7 +13,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 7. Utilizamos o padrão de projeto organizacional MVC(Model View Controller).
 
 ---
-<h2>Arquitetura do Projeto</h3>
+## Arquitetura do Projeto
 
 # 1. Entity Framework
 1. Foi utilizado como ponte entre o C# e o SQL server, proporcionando maior flexibilidade na hora de trabalharmos com o banco de dados.
@@ -25,12 +25,12 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 2. Utilizamos de DTOs para comunicação entre as classes no projeto, tanto para criação com os DTOs de entrada tanto para saída com os DTOs de resposta, garantindo melhor segurança dos dados enviados.
 ---
 
-<h2>Como executar o projeto em sua máquina: </h2>
-#Para a compilar o projeto em sua máquina é necessário ter instalado as seguintes ferramentas:
-* **[.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)** (Verifique com `dotnet --version`)
-* **[SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)** (Express, Developer ou utilizando o Docker).
+## Como executar o projeto em sua máquina: 
+### Para a compilar o projeto em sua máquina é necessário ter instalado as seguintes ferramentas:<br>
+- [Dotnet SDK 10.0](https://dotnet.microsoft.com/download/dotnet/10.0) (Verifique com `dotnet --version`) 
+- [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) (Express, Developer ou utilizando o Docker). 
 
-#Passo a Passo:
+# Passo a Passo:
 
 
 1. Clone o repositório:
@@ -65,18 +65,59 @@ Após clonar o repositório, utilize este comando para instalar as dependências
    dotnet run
    ```
 ---
+## Principais endpoints da API:
+
+### Categoria (api/Categoria)
+- Get:
+  - Possuimos dois gets:
+  - Sem ID: Lista todas as Categoria por meio de DTOs.
+  - Com ID: Verifica a existência da Categoria, caso exista retorna um DTO.
+- Post:
+  - Cria uma Categoria, validando a categoria.
+- Delete:
+  - Deleta o produto do sistema, não altera pedidos e verifica a existência do produto por ID.
+
+### Pedido(api/Pedido)
+- Get:
+  - Possuimos dois gets:
+  - Sem ID: Lista todos os pedidos por meio de DTOs.
+  - Com ID: Verifica a existência do pedido, caso exista retorna um DTO.
+- Post:
+  - Cria um pedido, valida o produto e a quantidade.
+- Put:
+  - Atualiza o status do pedido por ID, valida a existência do pedido.
+- Delete:
+  - Metodo de debug, valida o pedido por Id antes da deleção.
+### Produto (api/Produto)
+- Get:
+  - Possuimos dois gets:
+  - Sem ID: Lista todos os Produtos por meio de DTOs. Além disso pode receber parâmetros de filtro:
+     - Nome, preço minimo, preço maximo.
+     - Aceita paginação.
+  - Com ID: Verifica a existência do produto, caso exista retorna um DTO.
+- Post:
+  - Cria um produto, validando a categoria.
+- Delete:
+  - Deleta o produto do sistema, não altera pedidos e verifica a existência do produto por ID.
+
+### Relatório (api/Relatorio)
+- Get
+   - Existência de um get por Id da categoria, retorna o relatório especifico dessa categoria.
+   - Get sem id retorna todos os relatórios.
+
+---
 📫 Contato
 
-Fique a vontade para entrar em contato conosco!
-
-[Linkedin - Willian](https://www.linkedin.com/in/willian14551/)<br>
-[Email - Willian](mailto:willian01314551@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br>
-
-[Linkedin - Felipe](https://www.linkedin.com/in/felipe-da-silva-mossato-0a335a223/)<br>
-[Email - Felipe](mailto:felipemossato25@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br>
+Fique a vontade para entrar em contato conosco! <br> <br>
+Willian:    
+   [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/willian14551/)](https://www.linkedin.com/in/willian14551/)
+   [![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:willian01314551@gmail.com)](mailto:willian01314551@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br><br>
+Felipe:   
+   [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/felipe-da-silva-mossato-0a335a223/)](https://www.linkedin.com/in/felipe-da-silva-mossato-0a335a223/)
+   [![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:felipemossato25@gmail.com)](mailto:felipemossato25@gmail.com?subject=Optional%20Projeto-TechStore-Volvo)<br><br>
 
 --- 
-Diagrama de entidade relacionamento do projeto:
+Diagrama de entidade relacionamento do projeto feito pelo Mermaid chart:
 
 ```mermaid
 erDiagram
