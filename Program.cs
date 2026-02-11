@@ -22,7 +22,7 @@ construtor.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Projeto TechStore API 2026",
+        Title = "Techful API",
         Version = "v1",
         Description = "Projeto feito e produzido por Willian Anderson da Rocha e Felipe da Silva Mossato",
         Contact = new OpenApiContact
@@ -44,7 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.RoutePrefix = "swagger";
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "TechStore API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Techful API v1");
 
         c.IndexStream = () => typeof(Program).Assembly
             .GetManifestResourceStream("ProjetoTechStore_Volvo_2026.wwwroot.index.html");

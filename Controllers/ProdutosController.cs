@@ -116,7 +116,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok($"O produto {produto.Nome} de Id {produto.Id} foi deletado.");
         }
     }
 }

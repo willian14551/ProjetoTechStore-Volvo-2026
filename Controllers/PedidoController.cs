@@ -25,11 +25,11 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             try
             {
                 var pedidos = await _Service.ListarPedidos();
-                return this.Ok(pedidos);
+                return Ok(pedidos);
             }
             catch
             {
-                return this.StatusCode(500, new {message = "Erro ao listar pedidos."});
+                return StatusCode(500, new {message = "Erro ao listar pedidos."});
             }
         }
 
@@ -39,9 +39,9 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             var pedido = await _Service.ProcurarPedidoPorID(pedidoId);
             if(pedido == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
-            return this.Ok(pedido);
+            return Ok(pedido);
         }
 
         [HttpPost]
@@ -52,11 +52,11 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
                 var CriarPedido = await _Service.CriarPedido(pedido);
                 var PedidoDTO = _Service.ConverterParaDTO(CriarPedido); //método de conversão para melhor retorno.
 
-                return this.CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, PedidoDTO);
+                return CreatedAtAction(nameof(ProcurarPedidoPorID), new {pedidoId = CriarPedido.Id}, PedidoDTO);
             }
             catch (Exception ex)
             {
-                return this.BadRequest(new { erro = ex.Message });
+                return BadRequest(new { erro = ex.Message });
             }
         }
 
@@ -66,7 +66,7 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             try
             {
                 await _Service.UpdateStatusPedido(pedidoId, _status);
-                return this.Ok();
+                return Ok($"O pedido {pedidoId} teve seu status alterado para {_status}.");
             }
             catch(Exception ex)
             {
@@ -85,10 +85,10 @@ namespace ProjetoTechStore_Volvo_2026.Controllers
             var DeleteCheck = await _Service.DeletarPedidoPorID(pedidoId);
             if(DeleteCheck == false)
             {
-                return this.NotFound();
+                return NotFound();
             }
 
-            return this.NoContent();
+            return Ok($"O pedido {pedidoId} foi deletado.");
         }
     }
 }

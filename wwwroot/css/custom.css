@@ -47,7 +47,7 @@
             }
 
             .swagger-ui .topbar .topbar-wrapper a::after {
-                content: "TechStore API";
+                content: "Techful API";
                 font-weight: 700;
                 font-size: 14px;
                 letter-spacing: .2px;
